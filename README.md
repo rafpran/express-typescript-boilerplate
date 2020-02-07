@@ -1,7 +1,7 @@
 
 <h1 align="center">Express Typescript Boilerplate</h1>
 
-<p align="center">
+<!-- <p align="center">
   <a href="https://david-dm.org/w3tecch/express-typescript-boilerplate">
     <img src="https://david-dm.org/w3tecch/express-typescript-boilerplate/status.svg?style=flat" alt="dependency" />
   </a>
@@ -14,7 +14,7 @@
   <a href="https://stackshare.io/hirsch88/express-typescript-boilerplate">
     <img src="https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat" alt="StackShare" />
   </a>
-</p>
+</p> -->
 
 <p align="center">
   <b>A delightful way to building a Node.js RESTful API Services with beautiful code written in TypeScript.</b></br>
@@ -23,6 +23,14 @@
 </p>
 
 <br />
+
+## ❯ Fork changes
+
+Not every backend needa a DB or GraphQL. This version should be backed up with some services for data storage.
+
+    Changes:
+    * removed ORM support
+    * removed GraphQL support
 
 ## ❯ Why
 
@@ -80,17 +88,11 @@ Install yarn globally
 yarn global add yarn
 ```
 
-Install a MySQL database.
-
-> If you work with a mac, we recommend to use homebrew for the installation.
-
 ### Step 2: Create new Project
 
 Fork or download this project. Configure your package.json for your new project.
 
-Then copy the `.env.example` file and rename it to `.env`. In this file you have to add your database connection information.
-
-Create a new database with the name you have in your `.env`-file.
+Then copy the `.env.example` file and rename it to `.env`.
 
 Then setup your application environment.
 
@@ -98,7 +100,7 @@ Then setup your application environment.
 yarn run setup
 ```
 
-> This installs all dependencies with yarn. After that it migrates the database and seeds some test data into it. So after that your development environment is ready to use.
+> This installs all dependencies with yarn. So after that your development environment is ready to use.
 
 ### Step 3: Serve your App
 
@@ -176,9 +178,6 @@ The swagger and the monitor route can be altered in the `.env` file.
 | **src/api/validators/**           | Custom validators, which can be used in the request classes |
 | **src/auth/**                     | Authentication checkers and services |
 | **src/core/**                     | The core features like logger and env variables |
-| **src/database/factories**        | Factory the generate fake entities |
-| **src/database/migrations**       | Database migration scripts |
-| **src/database/seeds**            | Seeds to create some data in the database |
 | **src/decorators/**               | Custom decorators like @Logger & @EventDispatch |
 | **src/loaders/**                  | Loader is a place where you can configure your app |
 | **src/public/**                   | Static assets (fonts, css, js, img). |
@@ -189,7 +188,6 @@ The swagger and the monitor route can be altered in the `.env` file.
 | **test/unit/** *.test.ts          | Unit tests |
 | .env.example                      | Environment configurations |
 | .env.test                         | Test environment configurations |
-| mydb.sql                          | SQLite database for integration tests. Ignored by git and only available after integration tests |
 
 ## ❯ Logging
 
@@ -231,119 +229,6 @@ export class UserService {
         ...
     }
 ```
-
-## ❯ Seeding
-
-Isn't it exhausting to create some sample data for your database, well this time is over!
-
-How does it work? Just create a factory for your entities (models) and a seed script.
-
-### 1. Create a factory for your entity
-
-For all entities we want to seed, we need to define a factory. To do so we give you the awesome [faker](https://github.com/marak/Faker.js/) library as a parameter into your factory. Then create your "fake" entity and return it. Those factory files should be in the `src/database/factories` folder and suffixed with `Factory` like `src/database/factories/UserFactory.ts`.
-
-Settings can be used to pass some static value into the factory.
-
-```typescript
-define(User, (faker: typeof Faker, settings: { roles: string[] }) => {
-    const gender = faker.random.number(1);
-    const firstName = faker.name.firstName(gender);
-    const lastName = faker.name.lastName(gender);
-    const email = faker.internet.email(firstName, lastName);
-
-    const user = new User();
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.email = email;
-    user.roles = settings.roles;
-    return user;
-});
-```
-
-Handle relation in the entity factory like this.
-
-```typescript
-define(Pet, (faker: typeof Faker, settings: undefined) => {
-    const gender = faker.random.number(1);
-    const name = faker.name.firstName(gender);
-
-    const pet = new Pet();
-    pet.name = name;
-    pet.age = faker.random.number();
-    pet.user = factory(User)({ roles: ['admin'] })
-    return pet;
-});
-```
-
-### 2. Create a seed file
-
-The seeds files define how much and how the data are connected with each other. The files will be executed alphabetically.
-With the second function, accepting your settings defined in the factories, you are able to create different variations of entities.
-
-```typescript
-export class CreateUsers implements Seed {
-
-    public async seed(factory: Factory, connection: Connection): Promise<any> {
-        await factory(User)({ roles: [] }).createMany(10);
-    }
-
-}
-```
-
-Here an example with nested factories. You can use the `.map()` function to alter
-the generated value before they get persisted.
-
-```typescript
-...
-await factory(User)()
-    .map(async (user: User) => {
-        const pets: Pet[] = await factory(Pet)().createMany(2);
-        const petIds = pets.map((pet: Pet) => pet.Id);
-        await user.pets().attach(petIds);
-    })
-    .createMany(5);
-...
-```
-
-To deal with relations you can use the entity manager like this.
-
-```typescript
-export class CreatePets implements SeedsInterface {
-
-    public async seed(factory: FactoryInterface, connection: Connection): Promise<any> {
-        const connection = await factory.getConnection();
-        const em = connection.createEntityManager();
-
-        await times(10, async (n) => {
-            // This creates a pet in the database
-            const pet = await factory(Pet)().create();
-            // This only returns a entity with fake data
-            const user = await factory(User)({ roles: ['admin'] }).make();
-            user.pets = [pet];
-            await em.save(user);
-        });
-    }
-
-}
-```
-
-### 3. Run the seeder
-
-The last step is the easiest, just hit the following command in your terminal, but be sure you are in the projects root folder.
-
-```bash
-yarn start db.seed
-```
-
-#### CLI Interface
-
-| Command                                              | Description |
-| ---------------------------------------------------- | ----------- |
-| `yarn start "db.seed"`                               | Run all seeds |
-| `yarn start "db.seed --run CreateBruce,CreatePets"`  | Run specific seeds (file names without extension) |
-| `yarn start "db.seed -L"`                            | Log database queries to the terminal |
-| `yarn start "db.seed --factories <path>"`            | Add a different path to your factories (Default: `src/database/`) |
-| `yarn start "db.seed --seeds <path>"`                | Add a different path to your seeds (Default: `src/database/seeds/`) |
 
 ## ❯ Docker
 
