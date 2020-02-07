@@ -1,15 +1,12 @@
 import { Application } from 'express';
 import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework-w3tec';
 import { createExpressServer } from 'routing-controllers';
-
 import { authorizationChecker } from '../auth/authorizationChecker';
 import { currentUserChecker } from '../auth/currentUserChecker';
 import { env } from '../env';
-
 export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
     if (settings) {
-        const connection = settings.getData('connection');
-
+        // const connection = settings.getData('connection');
         /**
          * We create a new express server instance.
          * We could have also use useExpressServer here to attach controllers to an existing express instance.
@@ -26,20 +23,17 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
             controllers: env.app.dirs.controllers,
             middlewares: env.app.dirs.middlewares,
             interceptors: env.app.dirs.interceptors,
-
-            /**
-             * Authorization features
-             */
-            authorizationChecker: authorizationChecker(connection),
-            currentUserChecker: currentUserChecker(connection),
+            // /**
+            //  * Authorization features
+            //  */
+            authorizationChecker: authorizationChecker(),
+            currentUserChecker: currentUserChecker(),
         });
-
         // Run application to listen on given port
         if (!env.isTest) {
             const server = expressApp.listen(env.app.port);
             settings.setData('express_server', server);
         }
-
         // Here we can set the data for other loaders
         settings.setData('express_app', expressApp);
     }

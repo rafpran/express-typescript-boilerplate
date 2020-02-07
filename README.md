@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="./w3tec-logo.png" alt="w3tec" width="400" />
-</p>
 
 <h1 align="center">Express Typescript Boilerplate</h1>
 
@@ -27,8 +24,6 @@
 
 <br />
 
-![divider](./w3tec-divider.png)
-
 ## ❯ Why
 
 Our main goal with this project is a feature complete server application.
@@ -41,7 +36,6 @@ Try it!! We are happy to hear your feedback or any kind of new features.
 - **Beautiful Code** thanks to the awesome annotations of the libraries from [pleerock](https://github.com/pleerock).
 - **Easy API Testing** with included e2e testing.
 - **Dependency Injection** done with the nice framework from [TypeDI](https://github.com/pleerock/typedi).
-- **Simplified Database Query** with the ORM [TypeORM](https://github.com/typeorm/typeorm).
 - **Clear Structure** with different layers such as controllers, services, repositories, models, middlewares...
 - **Easy Exception Handling** thanks to [routing-controllers](https://github.com/pleerock/routing-controllers).
 - **Smart Validation** thanks to [class-validator](https://github.com/pleerock/class-validator) with some nice annotations.
@@ -52,13 +46,7 @@ Try it!! We are happy to hear your feedback or any kind of new features.
 - **E2E API Testing** thanks to [supertest](https://github.com/visionmedia/supertest).
 - **Basic Security Features** thanks to [Helmet](https://helmetjs.github.io/).
 - **Easy event dispatching** thanks to [event-dispatch](https://github.com/pleerock/event-dispatch).
-- **Fast Database Building** with simple migration from [TypeORM](https://github.com/typeorm/typeorm).
-- **Easy Data Seeding** with our own factories.
-- **GraphQL** provides as a awesome query language for our api [GraphQL](http://graphql.org/).
-- **TypeGraphQL** thanks to [TypeGraphQL](https://19majkel94.github.io/type-graphql/) we have a some cool decorators to simplify the usage of GraphQL.
 - **DataLoaders** helps with performance thanks to caching and batching [DataLoaders](https://github.com/facebook/dataloader).
-
-![divider](./w3tec-divider.png)
 
 ## ❯ Table of Contents
 
@@ -70,13 +58,10 @@ Try it!! We are happy to hear your feedback or any kind of new features.
 - [Logging](#-logging)
 - [Event Dispatching](#-event-dispatching)
 - [Seeding](#-seeding)
-- [GraphQL](#-graph-q-l)
 - [Docker](#-docker)
 - [Further Documentations](#-further-documentations)
 - [Related Projects](#-related-projects)
 - [License](#-license)
-
-![divider](./w3tec-divider.png)
 
 ## ❯ Getting Started
 
@@ -126,8 +111,6 @@ yarn start serve
 > This starts a local server using `nodemon`, which will watch for any file changes and will restart the sever according to these changes.
 > The server address will be displayed to you as `http://0.0.0.0:3000`.
 
-![divider](./w3tec-divider.png)
-
 ## ❯ Scripts and Tasks
 
 All script are defined in the `package-scripts.js` file, but the most important ones are listed here.
@@ -157,26 +140,10 @@ All script are defined in the `package-scripts.js` file, but the most important 
 - Run `yarn start build` to generated all JavaScript files from the TypeScript sources (There is also a vscode task for this called `build`).
 - To start the builded app located in `dist` use `yarn start`.
 
-### Database Migration
-
-- Run `typeorm migration:create -n <migration-file-name>` to create a new migration file.
-- Try `typeorm -h` to see more useful cli commands like generating migration out of your models.
-- To migrate your database run `yarn start db.migrate`.
-- To revert your latest migration run `yarn start db.revert`.
-- Drops the complete database schema `yarn start db.drop`.
-
-### Database Seeding
-
-- Run `yarn start db.seed` to seed your seeds into the database.
-
-![divider](./w3tec-divider.png)
-
 ## ❯ Debugger in VSCode
 
 To debug your code run `yarn start build` or hit <kbd>cmd</kbd> + <kbd>b</kbd> to build your app.
 Then, just set a breakpoint and hit <kbd>F5</kbd> in your Visual Studio Code.
-
-![divider](./w3tec-divider.png)
 
 ## ❯ API Routes
 
@@ -186,13 +153,10 @@ The swagger and the monitor route can be altered in the `.env` file.
 | Route          | Description |
 | -------------- | ----------- |
 | **/api**       | Shows us the name, description and the version of the package.json |
-| **/graphql**   | Route to the graphql editor or your query/mutations requests |
 | **/swagger**   | This is the Swagger UI with our API documentation |
 | **/monitor**   | Shows a small monitor page for the server |
 | **/api/users** | Example entity endpoint |
 | **/api/pets**  | Example entity endpoint |
-
-![divider](./w3tec-divider.png)
 
 ## ❯ Project Structure
 
@@ -207,14 +171,9 @@ The swagger and the monitor route can be altered in the `.env` file.
 | **src/api/errors/**               | Custom HttpErrors like 404 NotFound |
 | **src/api/interceptors/**         | Interceptors are used to change or replace the data returned to the client. |
 | **src/api/middlewares/**          | Express Middlewares like helmet security features |
-| **src/api/models/**               | TypeORM Models |
-| **src/api/repositories/**         | Repository / DB layer |
 | **src/api/services/**             | Service layer |
 | **src/api/subscribers/**          | Event subscribers |
 | **src/api/validators/**           | Custom validators, which can be used in the request classes |
-| **src/api/resolvers/**            | GraphQL resolvers (query, mutation & field-resolver) |
-| **src/api/types/**                | GraphQL types ,input-types and scalar types |
-| **src/api/** schema.gql           | Generated GraphQL schema |
 | **src/auth/**                     | Authentication checkers and services |
 | **src/core/**                     | The core features like logger and env variables |
 | **src/database/factories**        | Factory the generate fake entities |
@@ -231,8 +190,6 @@ The swagger and the monitor route can be altered in the `.env` file.
 | .env.example                      | Environment configurations |
 | .env.test                         | Test environment configurations |
 | mydb.sql                          | SQLite database for integration tests. Ignored by git and only available after integration tests |
-
-![divider](./w3tec-divider.png)
 
 ## ❯ Logging
 
@@ -251,8 +208,6 @@ export class UserService {
 
     ...
 ```
-
-![divider](./w3tec-divider.png)
 
 ## ❯ Event Dispatching
 
@@ -276,8 +231,6 @@ export class UserService {
         ...
     }
 ```
-
-![divider](./w3tec-divider.png)
 
 ## ❯ Seeding
 
@@ -392,57 +345,6 @@ yarn start db.seed
 | `yarn start "db.seed --factories <path>"`            | Add a different path to your factories (Default: `src/database/`) |
 | `yarn start "db.seed --seeds <path>"`                | Add a different path to your seeds (Default: `src/database/seeds/`) |
 
-![divider](./w3tec-divider.png)
-
-## ❯ GraphQL
-
-For the GraphQL part we used the library [TypeGraphQL](https://19majkel94.github.io/type-graphql/) to build awesome GraphQL API's.
-
-The context(shown below) of the GraphQL is builded in the **graphqlLoader.ts** file. Inside of this loader we create a scoped container for each incoming request.
-
-```typescript
-export interface Context {
-  requestId: number;
-  request: express.Request;
-  response: express.Response;
-  container: ContainerInstance;
-}
-```
-
-### DataLoader
-
-For the usage of the DataLoaders we created a annotation, which automatically creates and registers a new DataLoader to the scoped container.
-
-Here is an example of the **PetResolver**.
-
-```typescript
-import DataLoader from 'dataloader';
-import { DLoader } from '../../decorators/DLoader';
-    ...
-    constructor(
-        private petService: PetService,
-        @Logger(__filename) private log: LoggerInterface,
-        @DLoader(UserModel) private userLoader: DataLoader<string, UserModel>
-    ) { }
-    ...
-```
-
-Or you could use the repository too.
-
-```typescript
-@DLoader(UserRepository) private userLoader: DataLoader<string, UserModel>
-```
-
-Or even use a custom method of your given repository.
-
-```typescript
-@DLoader(PetRepository, {
-    method: 'findByUserIds',
-    key: 'userId',
-    multiple: true,
-}) private petLoader: DataLoader<string, PetModel>
-```
-
 ## ❯ Docker
 
 ### Install Docker
@@ -522,8 +424,6 @@ DB_HOST=localhost
 DB_PORT=3306
 ```
 
-![divider](./w3tec-divider.png)
-
 ## ❯ Further Documentations
 
 | Name & Link                       | Description                       |
@@ -532,7 +432,6 @@ DB_PORT=3306
 | [Microframework](https://github.com/pleerock/microframework) | Microframework is a simple tool that allows you to execute your modules in a proper order, helping you to organize bootstrap code in your application. |
 | [TypeDI](https://github.com/pleerock/typedi) | Dependency Injection for TypeScript. |
 | [routing-controllers](https://github.com/pleerock/routing-controllers) | Create structured, declarative and beautifully organized class-based controllers with heavy decorators usage in Express / Koa using TypeScript and Routing Controllers Framework. |
-| [TypeORM](http://typeorm.io/#/) | TypeORM is highly influenced by other ORMs, such as Hibernate, Doctrine and Entity Framework. |
 | [class-validator](https://github.com/pleerock/class-validator) | Validation made easy using TypeScript decorators. |
 | [class-transformer](https://github.com/pleerock/class-transformer) | Proper decorator-based transformation / serialization / deserialization of plain javascript objects to class constructors |
 | [event-dispatcher](https://github.com/pleerock/event-dispatch) | Dispatching and listening for application events in Typescript |
@@ -543,10 +442,6 @@ DB_PORT=3306
 | [nock](https://github.com/node-nock/nock) | HTTP mocking and expectations library |
 | [swagger Documentation](http://swagger.io/) | API Tool to describe and document your api. |
 | [SQLite Documentation](https://www.sitepoint.com/getting-started-sqlite3-basic-commands/) | Getting Started with SQLite3 – Basic Commands. |
-| [GraphQL Documentation](http://graphql.org/graphql-js/) | A query language for your API. |
-| [DataLoader Documentation](https://github.com/facebook/dataloader) | DataLoader is a generic utility to be used as part of your application's data fetching layer to provide a consistent API over various backends and reduce requests to those backends via batching and caching. |
-
-![divider](./w3tec-divider.png)
 
 ## ❯ Related Projects
 
@@ -554,8 +449,6 @@ DB_PORT=3306
 - [express-graphql-typescript-boilerplate](https://github.com/w3tecch/express-graphql-typescript-boilerplate) - A starter kit for building amazing GraphQL API's with TypeScript and express by @w3tecch
 - [aurelia-typescript-boilerplate](https://github.com/w3tecch/aurelia-typescript-boilerplate) - An Aurelia starter kit with TypeScript
 - [Auth0 Mock Server](https://github.com/hirsch88/auth0-mock-server) - Useful for e2e testing or faking an oAuth server
-
-![divider](./w3tec-divider.png)
 
 ## ❯ License
 

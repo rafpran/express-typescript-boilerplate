@@ -1,9 +1,7 @@
 /**
  * Windows: Please do not use trailing comma as windows will fail with token error
  */
-
 const { series, rimraf, } = require('nps-utils');
-
 module.exports = {
     scripts: {
         default: 'nps start',
@@ -36,8 +34,7 @@ module.exports = {
          */
         setup: {
             script: series(
-                'yarn install',
-                'nps db.setup',
+                'yarn install'
             ),
             description: 'Setup`s the development environment(yarn & database)'
         },
@@ -46,7 +43,7 @@ module.exports = {
          */
         config: {
             script: series(
-                runFast('./commands/tsconfig.ts'),
+                runFast('./commands/tsconfig.ts')
             ),
             hiddenFromHelp: true
         },
@@ -62,7 +59,7 @@ module.exports = {
                 'nps transpile',
                 'nps copy',
                 'nps copy.tmp',
-                'nps clean.tmp',
+                'nps clean.tmp'
             ),
             description: 'Builds the app into the dist directory'
         },
@@ -123,47 +120,6 @@ module.exports = {
                     './dist'
                 ),
                 hiddenFromHelp: true
-            }
-        },
-        /**
-         * Database scripts
-         */
-        db: {
-            migrate: {
-                script: series(
-                    'nps banner.migrate',
-                    'nps config',
-                    runFast('./node_modules/typeorm/cli.js migration:run')
-                ),
-                description: 'Migrates the database to newest version available'
-            },
-            revert: {
-                script: series(
-                    'nps banner.revert',
-                    'nps config',
-                    runFast('./node_modules/typeorm/cli.js migration:revert')
-                ),
-                description: 'Downgrades the database'
-            },
-            seed: {
-                script: series(
-                    'nps banner.seed',
-                    'nps config',
-                    runFast('./commands/seed.ts')
-                ),
-                description: 'Seeds generated records into the database'
-            },
-            drop: {
-                script: runFast('./node_modules/typeorm/cli.js schema:drop'),
-                description: 'Drops the schema of the database'
-            },
-            setup: {
-                script: series(
-                    'nps db.drop',
-                    'nps db.migrate',
-                    'nps db.seed'
-                ),
-                description: 'Recreates the database with seeded data'
             }
         },
         /**
@@ -268,7 +224,6 @@ module.exports = {
         }
     }
 };
-
 function banner(name) {
     return {
         hiddenFromHelp: true,
@@ -277,23 +232,18 @@ function banner(name) {
         script: runFast(`./commands/banner.ts ${name}`),
     };
 }
-
 function copy(source, target) {
     return `copyfiles --up 1 ${source} ${target}`;
 }
-
 function copyDir(source, target) {
     return `ncp ${source} ${target}`;
 }
-
 function run(path) {
     return `ts-node ${path}`;
 }
-
 function runFast(path) {
     return `ts-node --transpileOnly ${path}`;
 }
-
 function tslint(path) {
     return `tslint -c ./tslint.json ${path} --format stylish`;
 }
