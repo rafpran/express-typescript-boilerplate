@@ -26,7 +26,7 @@
 
 ## ❯ Fork changes
 
-Not every backend needa a DB or GraphQL. This version should be backed up with some services for data storage.
+Not every backend needs a DB or GraphQL. This version should be backed up with some services for data storage.
 
     Changes:
     * removed ORM support
